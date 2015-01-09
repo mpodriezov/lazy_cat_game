@@ -1,0 +1,29 @@
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /*
+        Many thanks for awesome pattern found at http://subtlepatterns.com/
+        This patterns belongs to user Uday http://www.indexstudio.net/
+    */
+    background: url("../img/swirl_pattern.png") repeat;
+}
+
+.wrapper {
+    width: 100%;
+    text-align: center;
+}
+
+.title {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 2em;
+    height: 65px;
+    margin: 0;
+}
+
+canvas {
+    margin: auto;
+}
