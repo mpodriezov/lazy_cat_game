@@ -2,6 +2,9 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
+    font-size: 100%;
+    min-width: 450px;
+    min-height: 540px;
 }
 
 body {
@@ -26,4 +29,15 @@ body {
 
 canvas {
     margin: auto;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+
+.copyrights {
+    font-family: 'Gloria Hallelujah', Verdana cursive;
+    font-size: 0.5em;
 }
