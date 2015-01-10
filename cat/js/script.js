@@ -108,7 +108,6 @@
     var mouseRun = function () {
         // random interval runs form 8 to 15 secs
         var secs = Math.floor(Math.random() * 15) + 8;
-        resetMouse();
         setTimeout(function () {
             resetMouse();
             mouse.startTime = (new Date()).getTime();
