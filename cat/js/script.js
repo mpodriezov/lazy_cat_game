@@ -6,7 +6,7 @@
     };
 
     var canvas = {
-        minWidth: 450,
+        minWidth: 495,
         minHeight: 540,
         element: null,
         rect: null,
@@ -15,7 +15,7 @@
 
     var mouse = {
         x: 0,
-        y: 430,
+        y: 0,
         width: 200,
         run: false,
         startTime: null
@@ -52,12 +52,12 @@
     var resetMouse = function () {
         mouse.run = false;
         mouse.x = canvas.element.width + mouse.width;
-        mouse.y = 430;
+        mouse.y = 460;
     };
 
     var resetCat = function () {
         cat.x = canvas.element.width / 2 - 50;
-        cat.y = 100;
+        cat.y = 140;
         cat.eyes.left.centerX = cat.x + 35;
         cat.eyes.left.centerY = cat.y;
         cat.eyes.right.centerX = cat.x + 65;
@@ -67,6 +67,9 @@
     var init = function () {
 
         canvas.element = document.querySelector('canvas');
+
+        document.body.style.width = window.innerWidth + "px";
+        document.body.style.height = window.innerHeight + "px";
 
         if (window.innerWidth > canvas.minWidth) {
             canvas.element.width = window.innerWidth;
@@ -159,14 +162,14 @@
     var drawFloor = function (context) {
         //floor
         context.beginPath();
-        context.moveTo(0, 330);
-        context.rect(0, 330, canvas.element.width, 330);
+        context.moveTo(0, 370);
+        context.rect(0, 370, canvas.element.width, 370);
         context.closePath();
         context.fillStyle = colors.blue3;
         context.fill();
         context.beginPath();
-        context.moveTo(0, 330);
-        context.lineTo(canvas.element.width, 330);
+        context.moveTo(0, 370);
+        context.lineTo(canvas.element.width, 370);
         context.lineWidth = 3;
         context.strokeStyle = colors.blue1;
         context.closePath();

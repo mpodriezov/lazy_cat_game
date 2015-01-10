@@ -1,13 +1,10 @@
 html, body {
     width: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
     font-size: 100%;
-    min-width: 450px;
-    min-height: 540px;
-}
-
-body {
+    overflow: hidden;
     /*
         Many thanks for awesome pattern found at http://subtlepatterns.com/
         This patterns belongs to user Uday http://www.indexstudio.net/
@@ -15,26 +12,45 @@ body {
     background: url("../img/swirl_pattern.png") repeat;
 }
 
-.wrapper {
+header, main, footer {
+    position: absolute;
+    text-align: center;
     width: 100%;
+}
+
+header {
+    top: 0;
+    left: 0;
+    height: 65px;
     text-align: center;
 }
 
-.title {
+header .title {
     font-family: 'Gloria Hallelujah', cursive;
     font-size: 2em;
-    height: 65px;
     margin: 0;
 }
 
-canvas {
-    margin: auto;
+main {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main canvas {
+    border: none;
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: 100%;
 }
 
 footer {
-    position: absolute;
     bottom: 0;
-    text-align: center;
+    padding: 5px;
 }
 
 .copyrights {
