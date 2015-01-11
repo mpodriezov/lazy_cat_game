@@ -26,6 +26,7 @@ header {
 }
 
 header .title {
+    /* Google Font, Gloria Hallelujah, SIL Open Font License (OFL) */
     font-family: 'Gloria Hallelujah', cursive;
     font-size: 2em;
     margin: 0;
