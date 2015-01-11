@@ -224,6 +224,12 @@
     var cat = {
         x: 0,
         y: 0,
+
+        mouth: {
+            jaws: false,
+            open: 0
+        },
+
         eyes: {
             left: {
                 centerX: 0,
@@ -238,6 +244,23 @@
         },
 
         update: function () {
+
+
+            if (mouse.captured) {
+                var distanceX = Math.abs(cat.x + 50 - mouse.x);
+                var distanceY = Math.abs(cat.y + 50 - mouse.y);
+
+                if (distanceX > 4 && distanceX < 200 && distanceY > 5 && distanceY < 100) {
+                    this.mouth.open = 100 / distanceX * 2;
+                }
+
+                this.mouth.jaws = !!(distanceX < 4 && distanceY < 20);
+
+                if (distanceX > 100) {
+                    this.mouth.open = 0;
+                }
+            }
+
             this.updateEye(cat.eyes.left);
             this.updateEye(cat.eyes.right);
         },
@@ -476,13 +499,37 @@
             context.stroke();
 
             //mouth
-            context.beginPath();
-            context.moveTo(cat.x + 50, cat.y + 43);
-            context.quadraticCurveTo(cat.x + 50, cat.y + 80, cat.x + 30, cat.y + 80);
-            context.moveTo(cat.x + 50, cat.y + 43);
-            context.quadraticCurveTo(cat.x + 50, cat.y + 80, cat.x + 70, cat.y + 80);
-            context.stroke();
-            context.closePath();
+
+            if (this.mouth.jaws) {
+                context.beginPath();
+                context.save();
+                context.arc(cat.x + 50, cat.y + 65, 36, Math.PI, 2 * Math.PI, true);
+                context.closePath();
+                context.lineWidth = 1;
+                context.fillStyle = '#d61111';
+                context.fill();
+                context.stroke();
+
+                context.arc(cat.x + 50, cat.y + 95, 10, Math.PI, 2 * Math.PI, false);
+                context.fillStyle = '#b20000';
+                context.fill();
+                context.restore();
+            } else {
+                context.beginPath();
+                context.moveTo(cat.x + 50, cat.y + 43);
+                context.quadraticCurveTo(
+                        cat.x + 50, cat.y + 80 - this.mouth.open / 2,
+                        cat.x + 30 - this.mouth.open / 2, cat.y + 80 - this.mouth.open / 2
+                );
+                context.moveTo(cat.x + 50, cat.y + 43);
+                context.quadraticCurveTo(
+                        cat.x + 50, cat.y + 80 - this.mouth.open / 2,
+                        cat.x + 70 + this.mouth.open / 2, cat.y + 80 - this.mouth.open / 2
+                );
+                context.stroke();
+                context.closePath();
+            }
+
 
             //left paw
             context.beginPath();
@@ -638,7 +685,7 @@
                 mouse.captured = true;
                 mouse.x = pointer.x;
                 mouse.y = pointer.y;
-                canvas.element.style.cursor = "pointer";
+                canvas.element.style.cursor = "none";
                 clearTimeout(app.mouseRunTimeout);
             }
 
@@ -649,6 +696,12 @@
                 mouse.captured = false;
                 canvas.element.style.cursor = "auto";
                 this.mouseRunInterval();
+
+                if (cat.mouth.jaws) {
+                    cat.mouth.open = 0;
+                    cat.mouth.jaws = false;
+                    alert("MMMMMM! I want MORE!")
+                }
             }
         },
 
