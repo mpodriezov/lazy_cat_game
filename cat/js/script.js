@@ -2,6 +2,7 @@
 
     var colors = {
         gray: '#808080',
+        light_gray: '#9b9b9b',
         pink: '#e8a199',
         black: '#000000',
         white: '#FFFFFF',
@@ -28,112 +29,189 @@
         x: 0,
         y: 0,
         width: 200,
+        speed: 1,
         run: false,
         startTime: null,
 
 
         update: function () {
-            if (!mouse.run) return;
-
-            var time = (new Date()).getTime() - mouse.startTime;
-            var linearSpeed = 1;
-            // pixels / second
-            var newX = linearSpeed * time / 1000;
-            if (mouse.x > -mouse.width) {
-                mouse.x -= newX;
-            } else {
-                mouse.reset();
+            if (this.run) {
+                var time = (new Date()).getTime() - this.startTime;
+                // pixels / second
+                var newX = this.speed * time / 1000;
+                if (this.x > -this.width) {
+                    this.x -= newX;
+                } else {
+                    this.reset();
+                }
             }
         },
 
-
         draw: function (context) {
-            // mouse
 
-            //shadow
-            context.beginPath();
-            context.moveTo(mouse.x + 2, mouse.y);
-            context.lineTo(mouse.x + 200, mouse.y);
-            context.closePath();
-            context.lineWidth = 4;
-            context.strokeStyle = colors.blue2;
-            context.stroke();
+            if (this.run) {
+                // mouse
 
-            //body
-            context.beginPath();
-            context.moveTo(mouse.x, mouse.y);
-            context.bezierCurveTo(mouse.x - 10, mouse.y - 10, mouse.x + 95, mouse.y - 70, mouse.x + 100, mouse.y);
-            context.lineTo(mouse.x, mouse.y);
-            context.closePath();
-            context.lineWidth = 1;
-            context.strokeStyle = colors.black;
-            context.fillStyle = colors.gray;
-            context.fill();
-            context.stroke();
-            // eye
-            context.beginPath();
-            context.arc(mouse.x + 12, mouse.y - 8, 2, 0, Math.PI * 2, false);
-            context.closePath();
-            context.fillStyle = colors.black;
-            context.fill();
-            //nose
-            context.beginPath();
-            context.arc(mouse.x - 4, mouse.y - 2, 3, 0, Math.PI * 2, false);
-            context.closePath();
-            context.fillStyle = colors.pink;
-            context.stroke();
-            context.fill();
+                //shadow
+                context.beginPath();
+                context.moveTo(mouse.x + 2, mouse.y);
+                context.lineTo(mouse.x + 200, mouse.y);
+                context.closePath();
+                context.lineWidth = 4;
+                context.strokeStyle = colors.blue2;
+                context.stroke();
 
-            //ears
-            context.beginPath();
-            var ears = {
-                x: mouse.x + 20,
-                y: mouse.y - 20
-            };
-            //1
-            context.beginPath();
-            context.moveTo(ears.x, ears.y);
-            context.bezierCurveTo(ears.x - 40, ears.y - 10, ears.x, ears.y - 30, ears.x, ears.y);
-            context.closePath();
-            context.stroke();
-            context.fill();
-            //2
-            context.beginPath();
-            context.moveTo(ears.x, ears.y);
-            context.bezierCurveTo(ears.x - 10, ears.y - 25, ears.x + 15, ears.y - 30, ears.x, ears.y);
-            context.closePath();
-            context.stroke();
-            context.fill();
+                //body
+                context.beginPath();
+                context.moveTo(mouse.x, mouse.y);
+                context.bezierCurveTo(mouse.x - 10, mouse.y - 10, mouse.x + 95, mouse.y - 70, mouse.x + 100, mouse.y);
+                context.lineTo(mouse.x, mouse.y);
+                context.closePath();
+                context.lineWidth = 1;
+                context.strokeStyle = colors.black;
+                context.fillStyle = colors.gray;
+                context.fill();
+                context.stroke();
+                // eye
+                context.beginPath();
+                context.arc(mouse.x + 12, mouse.y - 8, 2, 0, Math.PI * 2, false);
+                context.closePath();
+                context.fillStyle = colors.black;
+                context.fill();
+                //nose
+                context.beginPath();
+                context.arc(mouse.x - 4, mouse.y - 2, 3, 0, Math.PI * 2, false);
+                context.closePath();
+                context.fillStyle = colors.pink;
+                context.stroke();
+                context.fill();
 
-            //tail
-            var tail = {
-                x: mouse.x + 99,
-                y: mouse.y - 5
-            };
+                //ears
+                context.beginPath();
+                var ears = {
+                    x: mouse.x + 20,
+                    y: mouse.y - 20
+                };
+                //1
+                context.beginPath();
+                context.moveTo(ears.x, ears.y);
+                context.bezierCurveTo(ears.x - 40, ears.y - 10, ears.x, ears.y - 30, ears.x, ears.y);
+                context.closePath();
+                context.stroke();
+                context.fill();
+                //2
+                context.beginPath();
+                context.moveTo(ears.x, ears.y);
+                context.bezierCurveTo(ears.x - 10, ears.y - 25, ears.x + 15, ears.y - 30, ears.x, ears.y);
+                context.closePath();
+                context.stroke();
+                context.fill();
 
-            context.beginPath();
-            context.moveTo(tail.x, tail.y);
-            context.lineTo(tail.x + 100, tail.y + 5);
-            context.lineTo(tail.x, tail.y + 4);
-            context.closePath();
-            context.stroke();
-            context.fill();
-            //tail lines
-            context.beginPath();
-            context.fillStyle = colors.gray;
-            context.moveTo(tail.x + 5, tail.y + 1);
-            context.lineTo(tail.x + 5, tail.y + 3);
-            context.moveTo(tail.x + 10, tail.y + 1);
-            context.lineTo(tail.x + 10, tail.y + 3);
-            context.moveTo(tail.x + 15, tail.y + 1);
-            context.lineTo(tail.x + 15, tail.y + 3);
-            context.moveTo(tail.x + 20, tail.y + 1);
-            context.lineTo(tail.x + 20, tail.y + 3);
-            context.moveTo(tail.x + 30, tail.y + 1);
-            context.lineTo(tail.x + 30, tail.y + 3);
-            context.closePath();
-            context.stroke();
+                //tail
+                var tail = {
+                    x: mouse.x + 99,
+                    y: mouse.y - 5
+                };
 
+                context.beginPath();
+                context.moveTo(tail.x, tail.y);
+                context.lineTo(tail.x + 100, tail.y + 5);
+                context.lineTo(tail.x, tail.y + 4);
+                context.closePath();
+                context.stroke();
+                context.fill();
+                //tail lines
+                context.beginPath();
+                context.fillStyle = colors.gray;
+                context.moveTo(tail.x + 5, tail.y + 1);
+                context.lineTo(tail.x + 5, tail.y + 3);
+                context.moveTo(tail.x + 10, tail.y + 1);
+                context.lineTo(tail.x + 10, tail.y + 3);
+                context.moveTo(tail.x + 15, tail.y + 1);
+                context.lineTo(tail.x + 15, tail.y + 3);
+                context.moveTo(tail.x + 20, tail.y + 1);
+                context.lineTo(tail.x + 20, tail.y + 3);
+                context.moveTo(tail.x + 30, tail.y + 1);
+                context.lineTo(tail.x + 30, tail.y + 3);
+                context.closePath();
+                context.stroke();
+            }
+
+            if (this.captured) {
+                //body
+                context.beginPath();
+                context.moveTo(mouse.x + 3, mouse.y);
+                context.bezierCurveTo(mouse.x + 43, mouse.y + 100, mouse.x - 43, mouse.y + 100, mouse.x - 2, mouse.y);
+                context.lineTo(mouse.x - 2, mouse.y);
+                context.closePath();
+                context.lineWidth = 1;
+                context.strokeStyle = colors.black;
+                context.fillStyle = colors.gray;
+                context.fill();
+                context.stroke();
+
+                // eye
+                context.beginPath();
+                context.arc(mouse.x + 3, mouse.y + 15, 2, 0, Math.PI * 2, false);
+                context.arc(mouse.x - 4, mouse.y + 15, 2, 0, Math.PI * 2, false);
+                context.closePath();
+                context.fillStyle = colors.black;
+                context.fill();
+
+                //nose
+                context.beginPath();
+                context.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2, false);
+                context.closePath();
+                context.fillStyle = colors.pink;
+                context.stroke();
+                context.fill();
+
+                //legs
+                context.moveTo(mouse.x + 8, mouse.y + 70);
+                context.lineTo(mouse.x + 8, mouse.y + 80);
+                context.moveTo(mouse.x - 8, mouse.y + 70);
+                context.lineTo(mouse.x - 8, mouse.y + 80);
+                context.stroke();
+
+                context.beginPath();
+                context.moveTo(mouse.x + 4, mouse.y + 75);
+                context.moveTo(mouse.x + 1, mouse.y + 75);
+                context.lineTo(mouse.x - 2, mouse.y + 150);
+                context.lineTo(mouse.x - 2, mouse.y + 75);
+                context.closePath();
+                context.fill();
+                context.stroke();
+
+                //ears
+
+                var ears = {
+                    x: mouse.x,
+                    y: mouse.y + 20
+                };
+
+                //1
+                context.beginPath();
+                context.moveTo(ears.x + 10, ears.y);
+                context.bezierCurveTo(ears.x + 25, ears.y + 15, ears.x - 5, ears.y + 10, ears.x + 10, ears.y);
+                context.closePath();
+                context.stroke();
+                context.fillStyle = colors.gray;
+                context.fill();
+                //2
+                context.beginPath();
+                context.moveTo(ears.x - 10, ears.y);
+                context.bezierCurveTo(ears.x - 25, ears.y + 15, ears.x + 5, ears.y + 10, ears.x - 10, ears.y);
+                context.closePath();
+                context.stroke();
+                context.fillStyle = colors.gray;
+                context.fill();
+            }
+
+        },
+
+        isCaptured: function (pointer) {
+            //dummy detection
+            return pointer.x >= mouse.x && pointer.x < mouse.x + 100 && pointer.y > mouse.y - 35 && pointer.y < mouse.y + 25;
         },
 
         reset: function () {
@@ -312,6 +390,17 @@
             context.fill();
             context.stroke();
             context.closePath();
+
+            context.beginPath();
+            context.moveTo(cat.x + 30, cat.y + 250);
+            context.lineTo(cat.x + 30, cat.y + 150);
+            context.quadraticCurveTo(cat.x + 50, cat.y + 120, cat.x + 70, cat.y + 150);
+            context.lineTo(cat.x + 70, cat.y + 250);
+            context.quadraticCurveTo(cat.x + 50, cat.y + 260, cat.x + 30, cat.y + 250);
+            context.closePath();
+            context.fillStyle = colors.light_gray;
+            context.fill();
+
 
             //head
             // save state
@@ -519,21 +608,48 @@
 
             //first mouse run after sec
             setTimeout(function () {
-                mouse.startTime = (new Date()).getTime();
-                mouse.run = true;
+                if (!mouse.captured) {
+                    mouse.startTime = (new Date()).getTime();
+                    mouse.run = true;
+                }
             }, 1000);
 
             this.mouseRunInterval();
-
             this.drawFrame();
-
-            canvas.element.addEventListener('mousemove', this.onMouseMove, false);
-            window.addEventListener('resize', this.onResize, false);
+            canvas.element.addEventListener('mousemove', this.onMouseMove.bind(this), false);
+            canvas.element.addEventListener('mousedown', this.captureMouse.bind(this), false);
+            canvas.element.addEventListener('mouseup', this.dropMouse.bind(this), false);
+            window.addEventListener('resize', this.onResize.bind(this), false);
         },
 
         onMouseMove: function (e) {
             pointer.x = e.pageX - canvas.rect.left;
             pointer.y = e.pageY - canvas.rect.top;
+            if (mouse.captured) {
+                mouse.x = pointer.x;
+                mouse.y = pointer.y;
+            }
+        },
+
+        captureMouse: function () {
+
+            if (mouse.isCaptured(pointer)) {
+                mouse.run = false;
+                mouse.captured = true;
+                mouse.x = pointer.x;
+                mouse.y = pointer.y;
+                canvas.element.style.cursor = "pointer";
+                clearTimeout(app.mouseRunTimeout);
+            }
+
+        },
+
+        dropMouse: function () {
+            if (mouse.captured) {
+                mouse.captured = false;
+                canvas.element.style.cursor = "auto";
+                this.mouseRunInterval();
+            }
         },
 
         onResize: function () {
@@ -567,11 +683,11 @@
         mouseRunInterval: function () {
             // random interval runs form 8 to 15 secs
             var secs = Math.floor(Math.random() * 30) + 10;
-            setTimeout(function () {
+            app.mouseRunTimeout = setTimeout(function () {
                 mouse.reset();
                 mouse.startTime = (new Date()).getTime();
                 mouse.run = true;
-                this.mouseRunInterval(); //loop
+                app.mouseRunInterval(); //loop
             }, secs * 1000);
         },
 
@@ -581,10 +697,8 @@
             room.draw(ctx);
             cat.update();
             cat.draw(ctx);
-            if (mouse.run) {
-                mouse.update();
-                mouse.draw(ctx);
-            }
+            mouse.update();
+            mouse.draw(ctx);
             // loop
             requestAnimationFrame(app.drawFrame);
         }
