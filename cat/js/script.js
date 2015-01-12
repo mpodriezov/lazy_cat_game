@@ -9,7 +9,9 @@
         blue1: '#2e68b2',
         blue2: '#6395d3',
         blue3: '#9dbfe8',
-        blue4: '#5786bf'
+        blue4: '#5786bf',
+        red1: '#d61111',
+        red2: '#b20000'
     };
 
     var pointer = {
@@ -42,6 +44,7 @@
                 if (this.x > -this.width) {
                     this.x -= newX;
                 } else {
+                    app.finishGame();
                     this.reset();
                 }
             }
@@ -502,18 +505,36 @@
 
             if (this.mouth.jaws) {
                 context.beginPath();
-                context.save();
                 context.arc(cat.x + 50, cat.y + 65, 36, Math.PI, 2 * Math.PI, true);
                 context.closePath();
                 context.lineWidth = 1;
-                context.fillStyle = '#d61111';
+                context.fillStyle = colors.red1;
+                context.fill();
+                context.stroke();
+                context.beginPath();
+                context.arc(cat.x + 50, cat.y + 95, 20, Math.PI, 0, false);
+                context.fillStyle = colors.red2;
+                context.fill();
+                context.closePath();
+
+                context.beginPath();
+                context.moveTo(cat.x + 30, cat.y + 65);
+                context.lineTo(cat.x + 35, cat.y + 75);
+                context.lineTo(cat.x + 40, cat.y + 65);
+                context.closePath();
+                context.fillStyle = colors.white;
                 context.fill();
                 context.stroke();
 
-                context.arc(cat.x + 50, cat.y + 95, 10, Math.PI, 2 * Math.PI, false);
-                context.fillStyle = '#b20000';
+                context.beginPath();
+                context.moveTo(cat.x + 60, cat.y + 65);
+                context.lineTo(cat.x + 65, cat.y + 75);
+                context.lineTo(cat.x + 70, cat.y + 65);
+                context.closePath();
                 context.fill();
-                context.restore();
+                context.stroke();
+
+
             } else {
                 context.beginPath();
                 context.moveTo(cat.x + 50, cat.y + 43);
@@ -645,11 +666,45 @@
         }
     };
 
+    var score = {
+        result: 0,
+        history: [],
+        scoresElement: null,
+        modalElement: null,
+        init: function () {
+            this.scoresElement = document.querySelector('.scores');
+            this.scoresElement.style.zIndex = 0;
+            this.modalElement = document.getElementById('scores-modal');
+            document.getElementById('try_again').addEventListener('click', app.restart, false)
+        },
+        reset: function () {
+            score.result = 0;
+            score.hide();
+        },
+
+        draw: function (context) {
+            context
+        },
+
+        show: function () {
+            this.scoresElement.style.zIndex = 1000;
+            this.modalElement.style.display = 'inline-block';
+            this.modalElement.classList.add('zoom');
+
+        },
+        hide: function () {
+            this.scoresElement.style.zIndex = 0;
+            this.modalElement.style.display = 'none';
+            this.modalElement.classList.remove('zoom');
+        }
+
+    };
+
     var app = {
 
         init: function () {
             this.initCanvas();
-
+            score.init();
             cat.reset();
             mouse.reset();
 
@@ -663,10 +718,21 @@
 
             this.mouseRunInterval();
             this.drawFrame();
+
             canvas.element.addEventListener('mousemove', this.onMouseMove.bind(this), false);
             canvas.element.addEventListener('mousedown', this.captureMouse.bind(this), false);
             canvas.element.addEventListener('mouseup', this.dropMouse.bind(this), false);
             window.addEventListener('resize', this.onResize.bind(this), false);
+        },
+
+        finishGame: function () {
+            score.show();
+        },
+
+        restart: function () {
+            score.reset();
+            cat.reset();
+            mouse.reset();
         },
 
         onMouseMove: function (e) {
@@ -696,11 +762,11 @@
                 mouse.captured = false;
                 canvas.element.style.cursor = "auto";
                 this.mouseRunInterval();
-
                 if (cat.mouth.jaws) {
                     cat.mouth.open = 0;
                     cat.mouth.jaws = false;
-                    alert("MMMMMM! I want MORE!")
+                    score.result++;
+                    mouse.speed++;
                 }
             }
         },
@@ -735,7 +801,7 @@
 
         mouseRunInterval: function () {
             // random interval runs form 8 to 15 secs
-            var secs = Math.floor(Math.random() * 30) + 10;
+            var secs = Math.floor(Math.random() * 15) + 8;
             app.mouseRunTimeout = setTimeout(function () {
                 mouse.reset();
                 mouse.startTime = (new Date()).getTime();
@@ -752,6 +818,7 @@
             cat.draw(ctx);
             mouse.update();
             mouse.draw(ctx);
+            score.draw(ctx);
             // loop
             requestAnimationFrame(app.drawFrame);
         }
