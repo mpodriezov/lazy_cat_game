@@ -1,0 +1,15 @@
+{
+  "name": "lazy_cat_game",
+  "version": "0.0.0",
+  "description": "Simple HTML5 game. Just catch mouses and feed the lazy cat",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Max Podriezov",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-watch": "~0.6.1"
+  }
+}
